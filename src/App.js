@@ -11,9 +11,24 @@ function saveObjectToLocalStorage(name, item) {
 function App() {
   const [ratings, setRatings] = useState(
     retrieveObjectFromLocalStorage("ratings") || [
-      { activity: "activity 1", anxiety: 0, depression: 0 },
-      { activity: "activity 2", anxiety: 35, depression: 50 },
-      { activity: "activity 3", anxiety: 20, depression: 80 },
+      {
+        activity: "activity 1",
+        anxiety: 0,
+        depression: 0,
+        timestamp: Date(),
+      },
+      {
+        activity: "activity 2",
+        anxiety: 35,
+        depression: 50,
+        timestamp: Date(),
+      },
+      {
+        activity: "activity 3",
+        anxiety: 20,
+        depression: 80,
+        timestamp: Date(),
+      },
     ]
   );
 
@@ -54,6 +69,7 @@ const SubmitForm = (props) => {
       activity: term,
       anxiety: Number(anxiety),
       depression: Number(depression),
+      timestamp: Date(),
     });
     setTerm("");
     setAnxiety(0);
@@ -92,17 +108,17 @@ const SubmitForm = (props) => {
   );
 };
 
-const Header = (props) => (
+const Header = ({ numEntries }) => (
   <div>
-    <h1>You have{props.numEntries} entries. </h1>
+    <h1>You have {numEntries} entries. </h1>
   </div>
 );
 
-const EntriesList = (props) => {
-  const entries = props.entries.map((rating, index) => (
-    <Entry content={rating} key={index} id={index} onDelete={props.onDelete} />
+const EntriesList = ({ entries, onDelete }) => {
+  const entryItems = entries.map((rating, index) => (
+    <Entry content={rating} key={index} id={index} onDelete={onDelete} />
   ));
-  return <div>{entries}</div>;
+  return <div>{entryItems}</div>;
 };
 
 const Entry = ({ content, onDelete, id }) => {
@@ -113,6 +129,8 @@ const Entry = ({ content, onDelete, id }) => {
       {content.anxiety}
       {" - Depression - "}
       {content.depression}
+      {" - recorded at - "}
+      {content.timestamp.toString()}
       <button
         className="fa-times"
         onClick={() => {
