@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+function retrieveObjectFromLocalStorage(item) {
+  return JSON.parse(localStorage.getItem(item));
+}
+
+function saveObjectToLocalStorage(name, item) {
+  localStorage.setItem(name, JSON.stringify(item));
+}
 
 function App() {
-  const [ratings, setRatings] = useState([
-    { activity: "activity 1", anxiety: 0, depression: 0 },
-    { activity: "activity 2", anxiety: 35, depression: 50 },
-    { activity: "activity 3", anxiety: 20, depression: 80 },
-  ]);
+  const [ratings, setRatings] = useState(
+    retrieveObjectFromLocalStorage("ratings") || [
+      { activity: "activity 1", anxiety: 0, depression: 0 },
+      { activity: "activity 2", anxiety: 35, depression: 50 },
+      { activity: "activity 3", anxiety: 20, depression: 80 },
+    ]
+  );
+
+  useEffect(() => {
+    saveObjectToLocalStorage("ratings", ratings);
+  }, [ratings]);
 
   const handleSubmit = (rating) => {
     setRatings([...ratings, rating]);
@@ -92,7 +106,6 @@ const EntriesList = (props) => {
 };
 
 const Entry = ({ content, onDelete, id }) => {
-  console.log(content);
   return (
     <div>
       {content.activity}
