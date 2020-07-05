@@ -92,12 +92,10 @@ const SubmitForm = (props) => {
         />
       </div>
       <div className="flex pa1">
-        <label htmlFor="anxiety" className="w-50 mt3 purple sans-serif b tl">
-          Anxiety
-        </label>
+        <div className="w-50 mt3 purple sans-serif b tl f4">Anxiety</div>
         <input
           type="range"
-          className="input mt3 tl w-50"
+          className="input mt3 tl w-40"
           id="anxiety"
           min="0"
           max="100"
@@ -105,20 +103,20 @@ const SubmitForm = (props) => {
           value={anxiety}
           onChange={(e) => setAnxiety(e.target.value)}
         />
+        <div className="w-10 mt3 purple sans-serif b tc f4 ">{anxiety}</div>
       </div>
       <div className="flex pa1">
-        <label htmlFor="depression" className="w-50 mt3 purple sans-serif b tl">
-          Depression
-        </label>
+        <div className="w-50 mt3 purple sans-serif b tl f4">Depression</div>
         <input
           type="range"
-          className="input mt3 tl w-50"
+          className="input mt3 tl w-40"
           min="0"
           max="100"
           step="5"
           value={depression}
           onChange={(e) => setDepression(e.target.value)}
         />
+        <div className="w-10 mt3 purple sans-serif b tc f4 ">{depression}</div>
       </div>
       <div className="flex pt4 pb3">
         <div className="w-33" />
@@ -143,7 +141,7 @@ const Header = () => (
 
 const EntriesHeader = ({ numEntries }) => (
   <div>
-    <h1 className="f3 sans-serif">You have {numEntries} previous entries. </h1>
+    <h1 className="f4 sans-serif">You have {numEntries} previous entries. </h1>
   </div>
 );
 
@@ -151,28 +149,56 @@ const EntriesList = ({ entries, onDelete }) => {
   const entryItems = entries.map((rating, index) => (
     <Entry content={rating} key={index} id={index} onDelete={onDelete} />
   ));
-  return <div>{entryItems}</div>;
+  return (
+    <div className="pt2">
+      <div className="overflow-auto">
+        <table className="f6 w-100 center" cellSpacing="0">
+          <thead>
+            <tr>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white">
+                Activity
+              </th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">A</th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">D</th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white">When</th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody className="lh-copy">{entryItems}</tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 const Entry = ({ content, onDelete, id }) => {
   const since = moment.duration(moment(content.timestamp).diff(moment()));
   return (
-    <div className="sans-serif flex">
-      <div className="w-40 pa3 mr2">{content.activity}</div>
-      <div className="w-25 pa3 mr2 tc">A{content.anxiety}</div>
-      <div className="w-25 pa3 mr2 tc">D{content.depression}</div>
-      <div className="w-25 pa3 mr2">{since.humanize()} ago</div>
-      <div className="w-10 pa3 mr2">
+    <tr>
+      <td className="pv3 pr3 bb b--black-20 sans-serif">{content.activity}</td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+        {content.anxiety}
+      </td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+        {content.depression}
+      </td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif">
+        {since.humanize()} ago
+      </td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
         <button
-          className="fa-times"
+          type="button"
+          className="br-100 ba h2 w2 dib grow purple b"
           onClick={() => {
             onDelete(id);
           }}
         >
           X
         </button>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 
