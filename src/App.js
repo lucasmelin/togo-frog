@@ -50,7 +50,7 @@ function App() {
   return (
     <div>
       <Header />
-      <div className="mw9 center pa4 pt5-ns ph7-l">
+      <div className="mw9 center pa4 pt5-ns ph6-l">
         <div>
           <SubmitForm onFormSubmit={handleSubmit} />
           <EntriesHeader numEntries={ratings.length} />
@@ -85,19 +85,19 @@ const SubmitForm = (props) => {
       <div>
         <input
           type="text"
-          className="input"
+          className="input input-reset ba b--black-20 pa2 mb2 db w-100 br3 i sans-serif"
           placeholder="What are you up to?"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="anxiety" className="mt3 purple sans-serif b tl">
+      <div className="flex pa1">
+        <label htmlFor="anxiety" className="w-50 mt3 purple sans-serif b tl">
           Anxiety
         </label>
         <input
           type="range"
-          className="input"
+          className="input mt3 tl w-50"
           id="anxiety"
           min="0"
           max="100"
@@ -106,13 +106,13 @@ const SubmitForm = (props) => {
           onChange={(e) => setAnxiety(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="depression" className="mt3 purple sans-serif b tl">
+      <div className="flex pa1">
+        <label htmlFor="depression" className="w-50 mt3 purple sans-serif b tl">
           Depression
         </label>
         <input
           type="range"
-          className="input"
+          className="input mt3 tl w-50"
           min="0"
           max="100"
           step="5"
@@ -120,20 +120,24 @@ const SubmitForm = (props) => {
           onChange={(e) => setDepression(e.target.value)}
         />
       </div>
-      <div>
-        <input
-          className="f6 link dim br3 ba ph3 pv2 mb2 dib purple"
-          type="submit"
-          value="Submit"
-        />
+      <div className="flex pt4 pb3">
+        <div className="w-33" />
+        <div className="w-33">
+          <input
+            className="w-100 f5 dim bn ph3 pv2 mb2 white b bg-purple sans-serif br-pill"
+            type="submit"
+            value="Submit"
+          />
+        </div>
       </div>
+      <div className="w-33" />
     </form>
   );
 };
 
 const Header = () => (
-  <header className="bg-light-blue flex w-100 ph3 pv3 pv4-ns ph4-m ph5-l">
-    <div className="mt9 white sans-serif b tl f2">Togo</div>
+  <header className="bg-dark-green flex w-100 ph3 pv3 pv1-ns ph1-m ph5-l">
+    <div className="mt1 white sans-serif b tl f3">Togo</div>
   </header>
 );
 
@@ -154,11 +158,11 @@ const Entry = ({ content, onDelete, id }) => {
   const since = moment.duration(moment(content.timestamp).diff(moment()));
   return (
     <div className="sans-serif flex">
-      <div className="outline w-25 pa3 mr2">{content.activity}</div>
-      <div className="outline w-25 pa3 mr2">A{content.anxiety}</div>
-      <div className="outline w-25 pa3 mr2">D{content.depression}</div>
-      <div className="outline w-25 pa3 mr2">{since.humanize()} ago</div>
-      <div className="outline w-25 pa3 mr2">
+      <div className="w-40 pa3 mr2">{content.activity}</div>
+      <div className="w-25 pa3 mr2 tc">A{content.anxiety}</div>
+      <div className="w-25 pa3 mr2 tc">D{content.depression}</div>
+      <div className="w-25 pa3 mr2">{since.humanize()} ago</div>
+      <div className="w-10 pa3 mr2">
         <button
           className="fa-times"
           onClick={() => {
