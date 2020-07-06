@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import {
+  VictoryLine,
+  VictoryChart,
+  VictoryTheme,
+  VictoryVoronoiContainer,
+  VictoryTooltip,
+  VictoryAxis,
+  VictoryLegend,
+} from "victory";
 
 function retrieveObjectFromLocalStorage(item) {
   return JSON.parse(localStorage.getItem(item));
@@ -55,6 +64,7 @@ function App() {
           <SubmitForm onFormSubmit={handleSubmit} />
           <EntriesHeader numEntries={ratings.length} />
           <EntriesList entries={ratings} onDelete={handleDelete} />
+          <Chart data={ratings} />
         </div>
       </div>
     </div>
@@ -155,13 +165,19 @@ const EntriesList = ({ entries, onDelete }) => {
         <table className="f6 w-100 center" cellSpacing="0">
           <thead>
             <tr>
-              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white">
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white sans-serif">
                 Activity
               </th>
-              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">A</th>
-              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">D</th>
-              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white">When</th>
-              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc">
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc sans-serif">
+                A
+              </th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc sans-serif">
+                D
+              </th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white sans-serif">
+                When
+              </th>
+              <th className="fw6 bb b--black-20 tl pb3 pr3 bg-white tc sans-serif">
                 Delete
               </th>
             </tr>
@@ -174,7 +190,7 @@ const EntriesList = ({ entries, onDelete }) => {
 };
 
 const Entry = ({ content, onDelete, id }) => {
-  const since = moment.duration(moment(content.timestamp).diff(moment()));
+  const since = moment(content.timestamp).fromNow();
   return (
     <tr>
       <td className="pv3 pr3 bb b--black-20 sans-serif">{content.activity}</td>
@@ -184,9 +200,7 @@ const Entry = ({ content, onDelete, id }) => {
       <td className="pv3 pr3 bb b--black-20 sans-serif tc">
         {content.depression}
       </td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif">
-        {since.humanize()} ago
-      </td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif">{since}</td>
       <td className="pv3 pr3 bb b--black-20 sans-serif tc">
         <button
           type="button"
@@ -201,5 +215,57 @@ const Entry = ({ content, onDelete, id }) => {
     </tr>
   );
 };
+
+function Chart({ data }) {
+  const xAxisTicks = [...Array(data.length).keys()];
+  const yAxisTicks = data.map((x) => moment(x.timestamp).fromNow());
+  const anxietyData = data.map((x, index) => {
+    return {
+      x: index,
+      y: x.anxiety,
+    };
+  });
+  const depressionData = data.map((x, index) => {
+    return {
+      x: index,
+      y: x.depression,
+    };
+  });
+  return (
+    <VictoryChart
+      theme={VictoryTheme.material}
+      containerComponent={
+        <VictoryVoronoiContainer
+          voronoiDimension="x"
+          labels={({ datum }) => `${datum.y}`}
+          labelComponent={
+            <VictoryTooltip cornerRadius={0} flyoutStyle={{ fill: "white" }} />
+          }
+        />
+      }
+    >
+      <VictoryLine
+        style={{
+          data: { stroke: "#5e2ca5" },
+          parent: { border: "1px solid #ccc" },
+        }}
+        data={anxietyData}
+      />
+      <VictoryLine
+        style={{
+          data: { stroke: "#137752" },
+          parent: { border: "1px solid #ccc" },
+        }}
+        data={depressionData}
+      />
+      <VictoryAxis
+        tickValues={xAxisTicks}
+        style={{ tickLabels: { angle: -20 } }}
+        tickFormat={yAxisTicks}
+      />
+      <VictoryAxis dependentAxis />
+    </VictoryChart>
+  );
+}
 
 export default App;
