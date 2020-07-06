@@ -7,7 +7,6 @@ import {
   VictoryVoronoiContainer,
   VictoryTooltip,
   VictoryAxis,
-  VictoryLegend,
 } from "victory";
 
 function retrieveObjectFromLocalStorage(item) {
