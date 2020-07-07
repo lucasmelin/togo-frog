@@ -8,6 +8,7 @@ import {
   VictoryTooltip,
   VictoryAxis,
 } from "victory";
+import api from "./utils/api";
 
 function retrieveObjectFromLocalStorage(item) {
   return JSON.parse(localStorage.getItem(item));
@@ -21,22 +22,31 @@ function App() {
   const [ratings, setRatings] = useState(
     retrieveObjectFromLocalStorage("ratings") || [
       {
-        activity: "activity 1",
-        anxiety: 0,
-        depression: 0,
-        timestamp: moment(),
+        data: {
+          activity: "activity 1",
+          anxiety: 20,
+          depression: 30,
+          timestamp: moment(),
+        },
+        ref: { "@ref": { id: 0 } },
       },
       {
-        activity: "activity 2",
-        anxiety: 35,
-        depression: 50,
-        timestamp: moment(),
+        data: {
+          activity: "activity 2",
+          anxiety: 50,
+          depression: 70,
+          timestamp: moment(),
+        },
+        ref: { "@ref": { id: 1 } },
       },
       {
-        activity: "activity 3",
-        anxiety: 20,
-        depression: 80,
-        timestamp: moment(),
+        data: {
+          activity: "activity 1",
+          anxiety: 20,
+          depression: 90,
+          timestamp: moment(),
+        },
+        ref: { "@ref": { id: 2 } },
       },
     ]
   );
@@ -45,11 +55,14 @@ function App() {
     saveObjectToLocalStorage("ratings", ratings);
   }, [ratings]);
 
-  const handleSubmit = (rating) => {
-    setRatings([...ratings, rating]);
+  const handleSubmit = async (rating) => {
+    // setRatings([...ratings, rating]);
+    const result = await api.create(rating);
+    setRatings([...ratings, result]);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
+    await api.delete(ratings[index].ref["@ref"].id);
     const newArr = [...ratings];
     newArr.splice(index, 1);
     setRatings(newArr);
@@ -189,15 +202,17 @@ const EntriesList = ({ entries, onDelete }) => {
 };
 
 const Entry = ({ content, onDelete, id }) => {
-  const since = moment(content.timestamp).fromNow();
+  const since = moment(content.data.timestamp).fromNow();
   return (
     <tr>
-      <td className="pv3 pr3 bb b--black-20 sans-serif">{content.activity}</td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
-        {content.anxiety}
+      <td className="pv3 pr3 bb b--black-20 sans-serif">
+        {content.data.activity}
       </td>
       <td className="pv3 pr3 bb b--black-20 sans-serif tc">
-        {content.depression}
+        {content.data.anxiety}
+      </td>
+      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+        {content.data.depression}
       </td>
       <td className="pv3 pr3 bb b--black-20 sans-serif">{since}</td>
       <td className="pv3 pr3 bb b--black-20 sans-serif tc">
@@ -217,17 +232,17 @@ const Entry = ({ content, onDelete, id }) => {
 
 function Chart({ data }) {
   const xAxisTicks = [...Array(data.length).keys()];
-  const yAxisTicks = data.map((x) => moment(x.timestamp).fromNow());
+  const yAxisTicks = data.map((x) => moment(x.data.timestamp).fromNow());
   const anxietyData = data.map((x, index) => {
     return {
       x: index,
-      y: x.anxiety,
+      y: x.data.anxiety,
     };
   });
   const depressionData = data.map((x, index) => {
     return {
       x: index,
-      y: x.depression,
+      y: x.data.depression,
     };
   });
   return (
