@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Entry from "./Entry";
 
 const EntriesList = ({ entries, onDelete }) => {
@@ -33,6 +34,20 @@ const EntriesList = ({ entries, onDelete }) => {
       </div>
     </div>
   );
+};
+
+EntriesList.propTypes = {
+  entries: PropTypes.shape(
+    PropTypes.shape({
+      data: PropTypes.shape({
+        activity: PropTypes.string,
+        anxiety: PropTypes.number,
+        depression: PropTypes.number,
+        timestamp: PropTypes.moment,
+      }),
+    })
+  ).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default EntriesList;

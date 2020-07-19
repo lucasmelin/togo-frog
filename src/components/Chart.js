@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import {
   VictoryLine,
@@ -60,5 +61,16 @@ function Chart({ data }) {
     </VictoryChart>
   );
 }
+
+Chart.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      activity: PropTypes.string,
+      anxiety: PropTypes.number,
+      depression: PropTypes.number,
+      timestamp: PropTypes.moment,
+    })
+  ).isRequired,
+};
 
 export default Chart;

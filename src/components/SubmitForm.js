@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 
 const SubmitForm = (props) => {
@@ -71,6 +72,10 @@ const SubmitForm = (props) => {
       <div className="w-33" />
     </form>
   );
+};
+
+SubmitForm.propTypes = {
+  onFormSubmit: PropTypes.func.isRequired,
 };
 
 export default SubmitForm;
