@@ -75,7 +75,7 @@ function App() {
         <div>
           <SubmitForm onFormSubmit={handleSubmit} />
           <EntriesHeader numEntries={ratings.length} />
-          <EntriesList entries={ratings} onDelete={handleDelete} />
+          <TopFiveEntriesList entries={ratings} onDelete={handleDelete} />
           <Chart data={ratings} />
         </div>
       </div>
@@ -166,6 +166,13 @@ const EntriesHeader = ({ numEntries }) => (
     <h1 className="f4 sans-serif">You have {numEntries} previous entries. </h1>
   </div>
 );
+
+const TopFiveEntriesList = ({ entries, onDelete }) => {
+  console.log(`Current entries: ${entries.length}`);
+  const start = Math.max(entries.length - 5, 0);
+  const filteredEntries = entries.slice(start, entries.length);
+  return <EntriesList entries={filteredEntries} onDelete={onDelete} />;
+};
 
 const EntriesList = ({ entries, onDelete }) => {
   const entryItems = entries.map((rating, index) => (

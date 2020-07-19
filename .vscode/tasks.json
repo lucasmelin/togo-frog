@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"detail": "npm-run-all --parallel start:app start:lambda"
+		},
+		{
+			"type": "npm",
+			"script": "start:lambda",
+			"problemMatcher": [],
+			"label": "npm: start:lambda",
+			"detail": "netlify-lambda serve functions -c ./webpack.config.js"
+		}
+	]
+}

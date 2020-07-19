@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
   const client = new faunadb.Client({
     secret: process.env.FAUNADB_SECRET,
   });
-  const id = event.path.match(/([^\/]*)\/*$/)[0];
+  const id = getId(event.path);
   console.log(`Function 'rating-delete' invoked. delete id: ${id}`);
   return client
     .query(q.Delete(q.Ref(q.Collection("ratings"), id)))
