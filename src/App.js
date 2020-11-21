@@ -6,7 +6,7 @@ import TopFiveEntriesList from "./components/TopFiveEntriesList";
 import Header from "./components/Header";
 import Chart from "./components/Chart";
 import SubmitForm from "./components/SubmitForm";
-import LoginForm from "./components/LoginForm";
+// import LoginForm from "./components/LoginForm";
 import "./css/main.css";
 
 function retrieveObjectFromLocalStorage(item) {
@@ -67,11 +67,11 @@ function App() {
     setRatings(newArr);
   };
 
-  const handleLogin = async (creds) => {
+  /* const handleLogin = async (creds) => {
     // const creds =
-  };
+  }; */
 
-  const authToken = localStorage.getItem("auth-token");
+  // const authToken = localStorage.getItem("auth-token");
   return (
     <div>
       {/* {authToken ? (

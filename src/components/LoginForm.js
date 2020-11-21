@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 
 const LoginForm = (props) => {
   const [email, setEmail] = useState("");
