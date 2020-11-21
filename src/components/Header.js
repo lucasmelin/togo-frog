@@ -1,8 +1,10 @@
 import React from "react";
 
 const Header = () => (
-  <header className="bg-dark-green flex w-100 ph3 pv3 pv1-ns ph1-m ph5-l">
-    <div className="mt1 white sans-serif b tl f3">Togo</div>
+  <header className="bg-green-600 shadow mb-3">
+    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-3xl font-bold leading-tight text-gray-100">Togo</h1>
+    </div>
   </header>
 );
 

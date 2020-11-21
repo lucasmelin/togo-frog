@@ -43,10 +43,20 @@ const batchDeleteRating = (ratingIds) => {
   });
 };
 
+const login = (data) => {
+  return fetch("/.netlify/functions/user-login", {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then((response) => {
+    return response.json();
+  });
+};
+
 export default {
   create,
   readAll,
   update,
+  login,
   delete: deleteRating,
   batchDelete: batchDeleteRating,
 };

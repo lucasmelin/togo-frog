@@ -6,25 +6,41 @@ const Entry = ({ content, onDelete, id }) => {
   const since = moment(content.data.timestamp).fromNow();
   return (
     <tr>
-      <td className="pv3 pr3 bb b--black-20 sans-serif">
+      <td className="border border-green-500 px-4 py-2 text-green-600 font-medium">
         {content.data.activity}
       </td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+      <td className="border border-green-500 px-4 py-2 text-green-600 font-medium">
         {content.data.anxiety}
       </td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+      <td className="border border-green-500 px-4 py-2 text-green-600 font-medium">
         {content.data.depression}
       </td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif">{since}</td>
-      <td className="pv3 pr3 bb b--black-20 sans-serif tc">
+      <td className="border border-green-500 px-4 py-2 text-green-600 font-medium">
+        {since}
+      </td>
+      <td className="border border-green-500 px-4 py-2 text-red-300 hover:text-red-500 font-medium text-center">
         <button
           type="button"
-          className="br-100 ba h2 w2 dib grow purple b"
+          className=""
           onClick={() => {
             onDelete(id);
           }}
         >
-          X
+          <svg
+            className="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
       </td>
     </tr>

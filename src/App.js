@@ -6,6 +6,8 @@ import TopFiveEntriesList from "./components/TopFiveEntriesList";
 import Header from "./components/Header";
 import Chart from "./components/Chart";
 import SubmitForm from "./components/SubmitForm";
+import LoginForm from "./components/LoginForm";
+import "./css/main.css";
 
 function retrieveObjectFromLocalStorage(item) {
   return JSON.parse(localStorage.getItem(item));
@@ -65,15 +67,32 @@ function App() {
     setRatings(newArr);
   };
 
+  const handleLogin = async (creds) => {
+    // const creds =
+  };
+
+  const authToken = localStorage.getItem("auth-token");
   return (
     <div>
-      <Header />
-      <div className="mw9 center pa4 pt5-ns ph6-l">
+      {/* {authToken ? (
         <div>
-          <SubmitForm onFormSubmit={handleSubmit} />
-          <EntriesHeader numEntries={ratings.length} />
-          <TopFiveEntriesList entries={ratings} onDelete={handleDelete} />
-          <Chart data={ratings} />
+          <Header />
+          <div className="place-self-center">
+            <LoginForm onFormSubmit={handleLogin} />
+          </div>
+        </div>
+      ) :  */}
+      <div>
+        <Header />
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+          <div>
+            <SubmitForm onFormSubmit={handleSubmit} />
+            <EntriesHeader numEntries={ratings.length} />
+            <TopFiveEntriesList entries={ratings} onDelete={handleDelete} />
+          </div>
+          <div className="max-w-md bg-white shadow">
+            <Chart data={ratings} />
+          </div>
         </div>
       </div>
     </div>

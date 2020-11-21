@@ -22,21 +22,24 @@ const SubmitForm = (props) => {
   };
 
   return (
-    <form className="bb" onSubmit={handleSubmit}>
+    <form
+      className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4"
+      onSubmit={handleSubmit}
+    >
       <div>
         <input
           type="text"
-          className="input input-reset ba b--black-20 pa2 mb2 db w-100 br3 i sans-serif"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="What are you up to?"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
         />
       </div>
-      <div className="flex pa1">
-        <div className="w-50 mt3 purple sans-serif b tl f4">Anxiety</div>
+      <div className="space-x-3 my-8 flex">
+        <div className="inline-block text-green-700 font-semibold">Anxiety</div>
         <input
           type="range"
-          className="input mt3 tl w-40"
+          className="appearance-none inline-block focus:outline-none rounded-full overflow-hidden bg-gray-300 text-red-400 red-400 h-6 w-4/6"
           id="anxiety"
           min="0"
           max="100"
@@ -44,32 +47,32 @@ const SubmitForm = (props) => {
           value={anxiety}
           onChange={(e) => setAnxiety(e.target.value)}
         />
-        <div className="w-10 mt3 purple sans-serif b tc f4 ">{anxiety}</div>
+        <div className="inline-block justify-self-end text-green-700 font-semibold">
+          {anxiety}
+        </div>
       </div>
-      <div className="flex pa1">
-        <div className="w-50 mt3 purple sans-serif b tl f4">Depression</div>
+      <div className="space-x-3 my-8 flex">
+        <div className="inline text-green-700 font-semibold">Depression</div>
         <input
           type="range"
-          className="input mt3 tl w-40"
+          className="appearance-none inline-block focus:outline-none rounded-full overflow-hidden bg-gray-300 text-red-400 red-400 h-6 w-3/5"
           min="0"
           max="100"
           step="5"
           value={depression}
           onChange={(e) => setDepression(e.target.value)}
         />
-        <div className="w-10 mt3 purple sans-serif b tc f4 ">{depression}</div>
-      </div>
-      <div className="flex pt4 pb3">
-        <div className="w-33" />
-        <div className="w-33">
-          <input
-            className="w-100 f5 dim bn ph3 pv2 mb2 white b bg-purple sans-serif br-pill"
-            type="submit"
-            value="Submit"
-          />
+        <div className="inline align-self-right text-green-700 font-semibold">
+          {depression}
         </div>
       </div>
-      <div className="w-33" />
+      <div className="flex items-center justify-between">
+        <input
+          className="px-4 py-2 rounded text-white inline-block shadow-lg bg-purple-700 hover:bg-purple-800 focus:bg-purple-900"
+          type="submit"
+          value="Submit"
+        />
+      </div>
     </form>
   );
 };
