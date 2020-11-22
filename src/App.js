@@ -63,7 +63,9 @@ function App() {
   }, [ratings]);
 
   const handleSubmit = async (rating) => {
-    setRatings([...ratings, rating]);
+    const tempRating = { data: rating };
+    setRatings([...ratings, tempRating]);
+    rating.user = authToken;
     const result = await api.create(rating);
     setRatings([...ratings, result]);
   };
