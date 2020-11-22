@@ -10,13 +10,14 @@ const client = new faunadb.Client({
 exports.handler = (event, context, callback) => {
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body);
-  console.log("Function `rating-create` invoked", data);
-  const ratingItem = {
-    data,
-  };
+  console.log("Function `user-login` invoked", data);
   /* construct the fauna query */
   return client
-    .query(q.Create(q.Collection("ratings"), ratingItem))
+    .query(
+      q.Login(q.Match(q.Index("users_by_email"), data.email), {
+        password: data.password,
+      })
+    )
     .then((response) => {
       console.log("success", response);
       /* Success! return the response with statusCode 200 */

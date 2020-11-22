@@ -6,7 +6,7 @@ import TopFiveEntriesList from "./components/TopFiveEntriesList";
 import Header from "./components/Header";
 import Chart from "./components/Chart";
 import SubmitForm from "./components/SubmitForm";
-// import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/LoginForm";
 import "./css/main.css";
 
 function retrieveObjectFromLocalStorage(item) {
@@ -50,12 +50,20 @@ function App() {
     ]
   );
 
+  const [authToken, setAuthToken] = useState(
+    retrieveObjectFromLocalStorage("auth-token") || null
+  );
+
+  useEffect(() => {
+    saveObjectToLocalStorage("auth-token", authToken);
+  }, [authToken]);
+
   useEffect(() => {
     saveObjectToLocalStorage("ratings", ratings);
   }, [ratings]);
 
   const handleSubmit = async (rating) => {
-    // setRatings([...ratings, rating]);
+    setRatings([...ratings, rating]);
     const result = await api.create(rating);
     setRatings([...ratings, result]);
   };
@@ -67,34 +75,37 @@ function App() {
     setRatings(newArr);
   };
 
-  /* const handleLogin = async (creds) => {
-    // const creds =
-  }; */
+  const handleLogin = async (creds) => {
+    const response = await api.login(creds);
+    if (response.secret) {
+      setAuthToken(response.secret);
+    }
+  };
 
-  // const authToken = localStorage.getItem("auth-token");
   return (
     <div>
-      {/* {authToken ? (
+      {authToken ? (
+        <div>
+          <Header />
+          <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+            <div>
+              <SubmitForm onFormSubmit={handleSubmit} />
+              <EntriesHeader numEntries={ratings.length} />
+              <TopFiveEntriesList entries={ratings} onDelete={handleDelete} />
+            </div>
+            <div className="max-w-md bg-white shadow">
+              <Chart data={ratings} />
+            </div>
+          </div>
+        </div>
+      ) : (
         <div>
           <Header />
           <div className="place-self-center">
             <LoginForm onFormSubmit={handleLogin} />
           </div>
         </div>
-      ) :  */}
-      <div>
-        <Header />
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-          <div>
-            <SubmitForm onFormSubmit={handleSubmit} />
-            <EntriesHeader numEntries={ratings.length} />
-            <TopFiveEntriesList entries={ratings} onDelete={handleDelete} />
-          </div>
-          <div className="max-w-md bg-white shadow">
-            <Chart data={ratings} />
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
